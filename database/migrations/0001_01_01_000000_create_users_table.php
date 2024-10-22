@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'general']);
             $table->rememberToken();
             $table->timestamps();
         });
@@ -42,8 +43,20 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // 外部キーを持つテーブルを削除
+        Schema::table('sessions', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+        Schema::table('groups', function (Blueprint $table) {
+            $table->dropForeign(['project_id']); // 外部キーの削除
+        });
+        Schema::dropIfExists('user_group');
+        Schema::dropIfExists('groups');
+        
+        // `users` テーブルを最後に削除
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
+    
 };
