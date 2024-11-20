@@ -11,7 +11,7 @@ class CommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -21,8 +21,7 @@ class CommentRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'video_id' => 'required|exists:videos,id',
+        $rules = [
             'time' => 'required',
             'evaluation' => 'required|in:good,improvement',
             'feedback_category' => 'required|in:speech/communication,board/materials,activity/development',
@@ -30,6 +29,10 @@ class CommentRequest extends FormRequest
             'x_coordinate' => 'required|numeric',
             'y_coordinate' => 'required|numeric',
         ];
+        if ($this->isMethod('post')) { // store メソッド用
+            $rules['video_id'] = 'required|exists:videos,id';
+        }
+        return $rules;
     }
 
     public function messages(): array

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserGroupRequest;
 use Illuminate\Http\Request;
 use App\Models\UserGroup;
 use App\Models\Group;
@@ -18,24 +19,17 @@ class UserGroupController extends Controller
         return response()->json($group);
     }
 
-    public function validateUserGroup(Request $request)
-    {
-        return $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'group_id' => 'required|exists:groups,id',
-        ]);
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserGroupRequest $request)
     {
-        $validateData = $this->validateUserGroup($request);
+        $validatedData = $request->validated();
 
         $user_group = UserGroup::create([
-            'user_id' => $validateData['user_id'],
-            'group_id' => $validateData['group_id']
+            'user_id' => $validatedData['user_id'],
+            'group_id' => $validatedData['group_id']
         ]);
 
         return response()->json($user_group,201);
@@ -45,9 +39,9 @@ class UserGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(UserGroupRequest $request)
     {
-        $validatedData = $this->validateUserGroup($request);
+        $validatedData = $request->validated();
 
         $userId = $validatedData['user_id'];
         $groupId = $validatedData['group_id'];

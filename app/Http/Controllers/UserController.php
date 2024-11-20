@@ -3,16 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // コンストラクタメソッド
-    public function __construct()
-    {
-        // // authミドルウェアを適用
-        // $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      */
@@ -21,30 +16,14 @@ class UserController extends Controller
         return response()->json(User::all());
     }
 
-    //バリデーションの記述
-    protected function validateUser(Request $request, int $id = null)
-    {
-        return $request->validate([
-            'name' => 'required|string|max:225',
-            'email' => 'required|email|unique:users,email' .($id ? ','.$id : '') ,
-            'password' => $id ? 'nullable|string|min:8' :'required|string|min:8',
-            'role' => 'required|string'
-        ]);
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $validatedData = $this->validateUser($request);
-
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-            'role' => $validatedData['role'],
-        ]);
+        $validatedData = $request->validated();
+        $user = User::create($validatedData);
 
         return response()->json($user,201);
     }
@@ -62,10 +41,10 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(UserRequest $request, int $id)
     {
         $user = User::findOrFail($id);
-        $validatedData = $this->validateUser($request,$id);
+        $validatedData = $request->validated();
 
         if(filled($validatedData['password'])){
             $validatedData['password'] = bcrypt($validatedData['password']);

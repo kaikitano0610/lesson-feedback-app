@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Http\Requests\GroupRequest;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -19,22 +20,12 @@ class GroupController extends Controller
      * Store a newly created resource in storage.
      */
 
-    // バリデーション
-    protected function validateGroup(Request $request, int $id = null)
-    {
-        return $request->validate([
-            'group_name' => 'required|string|max:255',
-            'project_id' => 'required|integer|exists:projects,id',
-        ]);
-    }
 
-    public function store(Request $request)
+    public function store(GroupRequest $request)
     {
-        $validatedData = $this->validateGroup($request);
-
         $group = Group::create([
-            'group_name' => $validatedData['group_name'],
-            'project_id' => $validatedData['project_id']
+            'group_name' => $request->input('group_name'),
+            'project_id' => $request->input('project_id')
         ]);
 
         return response()->json($group->load('project'),201);
@@ -52,12 +43,14 @@ class GroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(GroupRequest $request, int $id)
     {
         $group = Group::findOrFail($id);
-        $validatedData = $this->validateGroup($request,$id);
 
-        $group->update($validatedData);
+        $group->update([
+            'group_name' => $request->input('group_name'),
+            'project_id' => $request->input('project_id')
+        ]);
         return response()->json($group);
     }
 

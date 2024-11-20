@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 
 class CommentController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
@@ -22,16 +24,10 @@ class CommentController extends Controller
      */
     public function store(CommentRequest $request)
     {
-        $comment = Comment::create([
-            'video_id' => $request->input('video_id'),
-            'user_id' => auth()->id(),
-            'time' => $request->input('time'),
-            'evaluation' => $request->input('evaluation'),
-            'feedback_category' => $request->input('feedback_category'),
-            'comment_content' => $request->input('comment_content'),
-            'x_coordinate' => $request->input('x_coordinate'),
-            'y_coordinate' => $request->input('y_coordinate'),
-        ]);
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->id();
+
+        $comment = Comment::create($validatedData);
         return response()->json($comment,201);
     }
 
@@ -53,14 +49,9 @@ class CommentController extends Controller
 
         $this->authorize('update', $comment);
 
-        $comment->update([
-            'time' => $request->input('time'),
-            'evaluation' => $request->input('evaluation'),
-            'feedback_category' => $request->input('feedback_category'),
-            'comment_content' => $request->input('comment_content'),
-            'x_coordinate' => $request->input('x_coordinate'),
-            'y_coordinate' => $request->input('y_coordinate'),
-        ]);
+        $validatedData = $request->validated();
+
+        $comment->update($validatedData);
         return response()->json($comment);
     }
 

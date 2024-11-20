@@ -4,14 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Illuminate\Http\Request;
+use App\Http\Requests\VideoRequest;
 
 class VideoController extends Controller
 {
-    // コンストラクタメソッド
-    public function __construct()
-    {
 
-    }
     /**
      * Display a listing of the resource.
      */
@@ -20,39 +17,16 @@ class VideoController extends Controller
         return response()->json(Video::all());
     }
 
-    //バリデーションの記述
-    protected function validateVideo(Request $request, int $id = null)
-    {
-        return $request->validate([
-            'title' => 'required|string|max:255',
-            'youtube_link' => 'required|url',
-            'subject' => 'required|string|max:255',
-            'school_type' => 'required|string|max:255',
-            'grade' => 'required|string|max:255',
-            'pdf_path' => 'required|string|max:255'
-
-        ]);
-    }
-
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VideoRequest $request)
     {
-        $validatedData = $this->validateVideo($request);
+        $validatedData = $request->validated();
+        $validatedData["user_id"] = auth()->id();
+        $validatedData["posted_date"] = now();
 
-        $video = Video::create([
-            'title' => $validatedData['title'],
-            'user_id' => auth()->id(),  
-            'youtube_link' => $validatedData['youtube_link'],
-            'posted_date' => now(),
-            'subject' => $validatedData['subject'],
-            'school_type' => $validatedData['school_type'],
-            'grade' => $validatedData['grade'],
-            'pdf_path' => $validatedData['pdf_path'],
-        ]);
-
+        $video = Video::create($validatedData);
         return response()->json($video,201);
     }
 
@@ -68,21 +42,12 @@ class VideoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(VideoRequest $request, string $id)
     {
         $video = Video::findOrFail($id);
-        $validatedData = $this->validateVideo($request,$id);
+        $validatedData = $request->validated();
 
-        $video->update([
-            'title' => $validatedData['title'],
-            'user_id' => auth()->id(),
-            'youtube_link' => $validatedData['youtube_link'],
-            // posted_dateは変更なし
-            'subject' => $validatedData['subject'],
-            'school_type' => $validatedData['school_type'],
-            'grade' => $validatedData['grade'],
-            'pdf_path' => $validatedData['pdf_path'],
-        ]);
+        $video->update($validatedData);
         return response()->json($video);
     }
 
@@ -92,7 +57,7 @@ class VideoController extends Controller
     public function destroy(string $id)
     {
         $video = Video::findOrFail($id);
-        $video -> delete();
+        $video->delete();
         return response()->json('Video deleted successfully!',200);
     }
 }

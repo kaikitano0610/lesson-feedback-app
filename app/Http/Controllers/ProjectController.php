@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProjectRequest;
 
 
 
@@ -16,22 +17,15 @@ class ProjectController extends Controller
         return response()->json(Project::all());
     }
 
-    //バリデーション
-    protected function validateProject(Request $request)
-    {
-        return $request->validate([
-            'project_name' => 'required|string|max:255'
-        ]);
-    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProjectRequest $request)
     {
-        $validatedData = $this->validateProject($request);
+        $validatedData = $request->validated(); 
         $project = Project::create([
-            'project_name' => $validatedData['project_name']
+            'project_name' => $validatedData['project_name'],
         ]);
         return response()->json($project,201);
     }
@@ -48,12 +42,13 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(ProjectRequest $request, int $id)
     {
         $project = Project::findOrFail($id);
-        $validatedData = $this->validateProject($request ,$id);
         
-        $project->update($validatedData);
+        $project->update([
+            'project_name' => $request->input('project_name')
+        ]);
         return response()->json($project);
 
     }
@@ -64,7 +59,7 @@ class ProjectController extends Controller
     public function destroy(int $id)
     {
         $project = Project::findOrFail($id);
-        $project -> delete();
+        $project->delete();
         return response()->json('Project deleted successfully!',200);
     }
 }
