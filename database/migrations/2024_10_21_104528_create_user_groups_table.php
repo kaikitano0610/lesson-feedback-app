@@ -23,6 +23,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_groups');
+        Schema::table('user_group', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['group_id']);
+        });
+    
+        Schema::dropIfExists('user_group');
     }
 };

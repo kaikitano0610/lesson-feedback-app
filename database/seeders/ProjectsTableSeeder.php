@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB; // DBファサードをインポート
 
 class ProjectsTableSeeder extends Seeder
 {
@@ -13,9 +13,16 @@ class ProjectsTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('projects')->insert([
-            'project_name' => 'Test Project',
-            'created_at' => now(),
-            'updated_at' => now(),
+            [
+                'project_name' => 'Test Project 1',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'project_name' => 'Test Project 2',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ]);
     }
 }

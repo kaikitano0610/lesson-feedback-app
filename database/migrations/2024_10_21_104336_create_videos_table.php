@@ -14,14 +14,16 @@ return new class extends Migration
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // ユーザーとのリレーション。ユーザーが削除されたら同時に削除
+            $table->foreignId('user_id')->constrained('users');
             $table->string('youtube_link');
-            $table->string('subject'); // 教科
-            $table->string('school_type'); // 校種
-            $table->string('grade'); // 学年
-            $table->string('pdf_path')->nullable(); // PDFファイルのパス
-            $table->timestamps(); // created_at と updated_at
+            $table->date('posted_date'); // この行を追加
+            $table->string('subject');
+            $table->string('school_type');
+            $table->string('grade');
+            $table->string('pdf_path')->nullable();
+            $table->timestamps();
         });
+        
     }
 
     /**

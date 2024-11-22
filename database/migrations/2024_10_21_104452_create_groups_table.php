@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('group_name');
-            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade'); // プロジェクトとのリレーション
-            $table->timestamps(); // created_at と updated_at
+            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -24,6 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // 外部キーを先に削除
+        Schema::table('groups', function (Blueprint $table) {
+            $table->dropForeign(['project_id']);
+        });
+
         Schema::dropIfExists('groups');
     }
 };
