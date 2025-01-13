@@ -9,7 +9,7 @@ class UserGroupTableSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('user_group')->insert([
+        DB::table('user_groups')->insert([
             [
                 'user_id' => 1, // Admin
                 'group_id' => 1,
