@@ -1,13 +1,23 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import '../../css/components/NavBar.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons'
+
+
+
 
 function NavBar(){
     return(
-        <div>
-            <h1>NavBar</h1>
-            <NavLink to="/about" activeClassName="active">About</NavLink>
-            <NavLink to="/home" activeClassName="active">Home</NavLink>
-        </div>
+        <nav>
+            <Link className='link'>
+                <span>Lesson-Feedback-App</span>
+            </Link>
+            <Link className='link' to="/login">
+            <FontAwesomeIcon icon={faRightToBracket} />
+                ログイン
+            </Link>
+        </nav>
     );
 }
 
