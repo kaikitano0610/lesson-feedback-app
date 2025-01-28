@@ -1,0 +1,93 @@
+/* 画面全体のリセット用(任意) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ログインコンテナ */
+.login-container {
+    /* 画面全体の高さを確保 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    /* 横幅を制限して中央寄せにする */
+    width: 100%;
+    max-width: 400px;
+    margin: 15% auto;
+    /* 画面中央寄せ */
+    padding: 20px;
+
+    /* コンテナ自体に白い背景と軽いシャドウを付与 */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* エラーメッセージ */
+.login-error-message {
+    color: #e74c3c;
+    /* 赤系のエラー色 */
+    margin-bottom: 16px;
+    text-align: center;
+    /* 中央寄せ */
+}
+
+/* タイトル */
+.login-container h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+/* フォーム */
+.login-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ラベル */
+.login-container form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+}
+
+/* インプット */
+.login-container form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.login-container form input:focus {
+    outline: none;
+    border-color: #007bff;
+    /* フォーカス時に青枠など */
+}
+
+/* ログインボタン */
+.login-container button {
+    padding: 12px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    /* ブートストラップのメインカラーを引用 */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.login-container button:hover {
+    background-color: #0056b3;
+}
