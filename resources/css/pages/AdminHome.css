@@ -1,0 +1,139 @@
+/* プロジェクトページに関するCSS */
+.project_page {
+    display: flex;
+    justify-content: center;
+}
+
+.project_container {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.project {
+    background-color: white;
+    width: 100%;
+    height: 30%;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.project:hover {
+    background-color: rgb(225, 225, 225);
+}
+
+.project h1 {
+    font-size: 20px;
+}
+
+.project .created_date {
+    top: 2px;
+}
+
+.add_project {
+    height: 40px;
+    width: 60px;
+    padding: auto;
+    margin: 20px;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add_project:hover {
+    background-color: rgb(193, 193, 193);
+}
+
+
+/* グループページに関するcss */
+.group_page {
+    display: flex;
+    justify-content: center;
+}
+
+.group_container {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.group {
+    background-color: white;
+    width: 100%;
+    height: 30%;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.group:hover {
+    background-color: rgb(225, 225, 225);
+}
+
+.group h1 {
+    font-size: 20px;
+}
+
+.group .created_date {
+    top: 2px;
+}
+
+.add_group {
+    height: 40px;
+    width: 60px;
+    padding: auto;
+    margin: 20px;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add_group:hover {
+    background-color: rgb(193, 193, 193);
+}
+
+/* ポップアップのCSS */
+.popup_container {
+    width: 80%;
+    height: 50%;
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.popup_container h2 {
+    margin: 15px;
+}
+
+.popup_container input {
+    margin: 20px;
+    width: 60%;
+    padding: 5px;
+}
