@@ -3,11 +3,15 @@ import React, { useEffect, useState } from 'react';
 import '../../../css/pages/AdminHome.css'
 import { useNavigate } from 'react-router-dom';
 import AddProjectPopup from './AddProjectPopup';
+import EditProjectPopup from './EditProjectPopup';
 
 
 const AdminHome = () => {
   const [project,setProject] = useState([]);
-  const [isOpen , setIsOpen] = useState(false);
+  const [isOpenAdd , setIsOpenAdd] = useState(false);
+  const [isOpenEdit , setIsOpenEdit] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  const [projectName , setProjectName] = useState();
   const token = localStorage.getItem('token');
 
   const headers = {
@@ -21,10 +25,19 @@ const AdminHome = () => {
     navigate("/admin/groups",{ state:{id} });
   }
 
-  // プロジェクトを作成するダイアログを開く
+  // プロジェクトを作成するポップアップを開く
   const handleAddProject = () => {
-    setIsOpen(true);
+    setIsOpenAdd(true);
   }
+
+  //プロジェクトを編集するポップアップを開く
+  const handleEditProject = (id,project_name) => {
+    setSelectedProjectId(id);
+    setIsOpenEdit(true);
+    setProjectName(project_name);
+  }
+
+  //プロジェクト一覧のフェッチ
   const fetchProjects = async () => {
     try {
       const res = await axios.get( "http://127.0.0.1:8000/api/projects",{
@@ -36,15 +49,20 @@ const AdminHome = () => {
     }
   }
 
+  // 更新時
   useEffect(() => {
       fetchProjects();
     },[]
   )
 
-  //プロジェクトの追加後もフェッチ
-  const onprojectAdded = () => {
-    fetchProjects();
-    setIsOpen(false);
+  //プロジェクトの削除
+  const deletProject = async(id) => {
+    if(window.confirm("本当に削除しますか？")){
+      await axios.delete(`http://127.0.0.1:8000/api/projects/${id}`,{
+        headers: headers
+      })
+      fetchProjects();
+    }
   }
 
   return (
@@ -54,16 +72,36 @@ const AdminHome = () => {
         <div className='project_container'>
           {project.map((project) => (
             <div className='project' key={project.id} onClick={() => toGroups(project.id)}>
-              <h1> {project.project_name} </h1>
-              <p className='created_date'>{new Date(project.created_at).toLocaleDateString()}</p>
-              <p>8つのグループ</p>
+              <div>
+                <h1> {project.project_name} </h1>
+                <p className='created_date'>{new Date(project.created_at).toLocaleDateString()}</p>
+                <p>8つのグループ</p>
+              </div>
+              <div className='button_container'>
+                <div className='edit_button' onClick={(e) =>{
+                  e.stopPropagation();
+                  handleEditProject(project.id,project.project_name);
+                }}>編集</div>
+                <div className='delete_button' onClick={(e) =>{
+                  e.stopPropagation();
+                  deletProject(project.id);
+                }}>削除</div>
+              </div>
             </div>
           ))}
           <div className='add_project' onClick={handleAddProject}>追加</div>
-          {isOpen && (
-            <AddProjectPopup setIsOpen={setIsOpen} onprojectAdded={onprojectAdded} />
+          {isOpenAdd && (
+            <AddProjectPopup setIsOpenAdd={setIsOpenAdd} fetchProjects={fetchProjects}/>
             )
           }
+          {isOpenEdit && (
+            <EditProjectPopup 
+              setIsOpenEdit={setIsOpenEdit} 
+              fetchProjects={fetchProjects}
+              projectId={selectedProjectId}
+              project_name={projectName}
+            />
+          )}
         </div>
       </div>
     </>
