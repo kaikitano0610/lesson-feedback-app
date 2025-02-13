@@ -22,6 +22,8 @@
     border-radius: 10px;
     transition: all 0.3s;
     cursor: pointer;
+    display: flex;
+        justify-content: space-between;
 }
 
 .project:hover {
@@ -36,6 +38,37 @@
     top: 2px;
 }
 
+.button_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.button_container .edit_button {
+    background-color: rgb(227, 227, 227);
+    color: rgb(18, 18, 18);
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 2px 0;
+}
+
+.button_container .delete_button {
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 2px 0;
+}
+
+.button_container .delete_button:hover {
+    background-color: rgb(189, 1, 1);
+}
+
+.button_container .edit_button:hover {
+    background-color: rgb(255, 255, 255);
+}
 .add_project {
     height: 40px;
     width: 60px;
@@ -79,6 +112,8 @@
     border-radius: 10px;
     transition: all 0.3s;
     cursor: pointer;
+    display: flex;
+        justify-content: space-between;
 }
 
 .group:hover {
@@ -118,6 +153,7 @@
     height: 50%;
     background-color: white;
     position: fixed;
+    padding: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -132,8 +168,68 @@
     margin: 15px;
 }
 
-.popup_container input {
+.popup_container #project_name {
     margin: 20px;
-    width: 60%;
+    width: 90%;
     padding: 5px;
+}
+.popup_container #group_name {
+    margin: 20px;
+    width: 90%;
+    padding: 5px;
+}
+
+.checkbox {
+    margin: 5px;
+}
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup_button_container {
+    display: flex;
+    justify-content: end;
+}
+
+
+.btn {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 90px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.secondary {
+    background-color: rgb(164, 164, 164);
+    color: white;
+}
+
+.secondary:hover {
+    background-color: rgb(141, 141, 141);
+}
+
+.submit {
+    background-color: blue;
+    color: white;
+    border: none;
+}
+
+.submit:hover {
+    background-color: rgb(0, 0, 189);
+}
+
+.select_user {
+    height: 80px;
+    overflow: scroll;
+    border: solid;
+    padding: 10px;
+    border-radius: 10px;
 }

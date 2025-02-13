@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 
-const AddProjectPopup = ({setIsOpen,onprojectAdded}) => {
+const AddProjectPopup = ({setIsOpenAdd,fetchProjects}) => {
     const token = localStorage.getItem('token');
     const [formData, setFormData] = useState({
         project_name:'',
@@ -27,9 +27,8 @@ const AddProjectPopup = ({setIsOpen,onprojectAdded}) => {
         
         try{
             const response = await axios.post(apiUrl,formData, { headers });
-            console.log("作成したプロジェクト名：", response.data);
-            onprojectAdded();
-            setIsOpen(false);
+            setIsOpenAdd(false);
+            fetchProjects();
         }catch (error){
             console.error("プロジェクト作成失敗：", error)
             alert("プロジェクトの作成に失敗しました。")
@@ -37,7 +36,7 @@ const AddProjectPopup = ({setIsOpen,onprojectAdded}) => {
     }
 
     const handleNotAddProject = () => {
-        setIsOpen(false);
+        setIsOpenAdd(false);
     }
 
     return (
