@@ -4,6 +4,7 @@ import '../../../css/pages/AdminHome.css'
 import { useNavigate } from 'react-router-dom';
 import AddProjectPopup from './AddProjectPopup';
 import EditProjectPopup from './EditProjectPopup';
+import { API_BASE_URL } from '../../config/api';
 
 
 const AdminHome = () => {
@@ -25,6 +26,8 @@ const AdminHome = () => {
     navigate("/admin/groups",{ state:{id} });
   }
 
+  const projectApiUrl = `${API_BASE_URL}/projects`;
+
   // プロジェクトを作成するポップアップを開く
   const handleAddProject = () => {
     setIsOpenAdd(true);
@@ -40,7 +43,7 @@ const AdminHome = () => {
   //プロジェクト一覧のフェッチ
   const fetchProjects = async () => {
     try {
-      const res = await axios.get( "http://127.0.0.1:8000/api/projects",{
+      const res = await axios.get( projectApiUrl,{
         headers: headers
       })
       setProject(res.data);
@@ -58,7 +61,7 @@ const AdminHome = () => {
   //プロジェクトの削除
   const deletProject = async(id) => {
     if(window.confirm("本当に削除しますか？")){
-      await axios.delete(`http://127.0.0.1:8000/api/projects/${id}`,{
+      await axios.delete(`${projectApiUrl}/${id}`,{
         headers: headers
       })
       fetchProjects();
