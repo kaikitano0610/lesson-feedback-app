@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { API_BASE_URL } from '../../config/api';
 
 const AddGroupPopup = ({setIsOpenAdd ,projectId, fetchGroups}) => {
     const [formData , setFormData] = useState({
@@ -7,7 +8,7 @@ const AddGroupPopup = ({setIsOpenAdd ,projectId, fetchGroups}) => {
         project_id: projectId
     })
     const token = localStorage.getItem('token');
-    const addGroupApiUrl = "http://127.0.0.1:8000/api/groups";
+    const groupApiUrl = `${API_BASE_URL}/groups`;
 
     const handleChange = (e) => {
         setFormData({...formData,group_name: e.target.value})
@@ -27,7 +28,7 @@ const AddGroupPopup = ({setIsOpenAdd ,projectId, fetchGroups}) => {
             return
         }
         try{
-            const response = await axios.post(addGroupApiUrl,formData,{ headers });
+            const response = await axios.post(groupApiUrl,formData,{ headers });
             setIsOpenAdd(false);
             fetchGroups();
         }catch{
