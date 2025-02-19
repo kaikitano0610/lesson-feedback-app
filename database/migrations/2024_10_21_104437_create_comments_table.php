@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('video_id')->constrained('videos')->onDelete('cascade'); // 動画とのリレーション
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // ユーザーとのリレーション
-            $table->time('time'); // 再生時間
+            $table->integer('time'); // 再生時間
             $table->enum('evaluation', ['good', 'improvement']); // 良い点か改善点か
             $table->enum('feedback_category', ['speech/communication', 'board/materials', 'activity/development']); // フィードバックのカテゴリ
             $table->text('comment_content'); // コメント内容
