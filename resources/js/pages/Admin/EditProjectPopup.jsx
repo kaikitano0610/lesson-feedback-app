@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { API_BASE_URL } from '../../config/api';
 
 const EditProjectPopup = ({setIsOpenEdit,fetchProjects,projectId,project_name}) => {
 
@@ -14,7 +15,7 @@ const EditProjectPopup = ({setIsOpenEdit,fetchProjects,projectId,project_name}) 
         'Authorization':`Bearer ${token}`
     }
 
-    const editApiUrl = `http://127.0.0.1:8000/api/projects/${projectId}`;
+    const projectApiUrl = `${API_BASE_URL}/projects`;
 
     const handleChange = (e) =>{
         setFormData({...formData,project_name: e.target.value});
@@ -27,7 +28,7 @@ const EditProjectPopup = ({setIsOpenEdit,fetchProjects,projectId,project_name}) 
             return
         }
         try{
-            const response = await axios.put(editApiUrl,formData, {
+            const response = await axios.put(`${projectApiUrl}/${projectId}`,formData, {
                 headers:headers
             });
             console.log("更新したプロジェクト名：", response.data);

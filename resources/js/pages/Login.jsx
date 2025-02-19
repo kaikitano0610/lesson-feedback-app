@@ -15,7 +15,7 @@ const Login = () => {
     setError("");
 
     try {
-    const response = await axios.post("http://127.0.0.1:8000/api/login",{
+    const response = await axios.post("http://localhost/api/login",{
       email,
       password,
     })

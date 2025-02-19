@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { API_BASE_URL } from '../../config/api';
 
 const AddProjectPopup = ({setIsOpenAdd,fetchProjects}) => {
     const token = localStorage.getItem('token');
@@ -12,7 +13,7 @@ const AddProjectPopup = ({setIsOpenAdd,fetchProjects}) => {
         'Authorization':`Bearer ${token}`
     }
 
-    const apiUrl = 'http://127.0.0.1:8000/api/projects';
+      const projectApiUrl = `${API_BASE_URL}/projects`;
 
     const handleChange = (e) =>{
         setFormData({...formData,project_name: e.target.value});
@@ -26,7 +27,7 @@ const AddProjectPopup = ({setIsOpenAdd,fetchProjects}) => {
         }
         
         try{
-            const response = await axios.post(apiUrl,formData, { headers });
+            const response = await axios.post(projectApiUrl,formData, { headers });
             setIsOpenAdd(false);
             fetchProjects();
         }catch (error){
