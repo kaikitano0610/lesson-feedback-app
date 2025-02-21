@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import "../../../css/pages/AdminHome.css"
 import AddGroupPopup from './AddGroupPopup';
 import EditGroupPopup from './EditGroupPopup';
+import { API_BASE_URL } from '../../config/api';
 
 const AdminGroupList = () => {
 
@@ -16,6 +17,9 @@ const AdminGroupList = () => {
   const token = localStorage.getItem('token');
   const location = useLocation();
   const projectId = location.state?.id;
+  const projectApiUrl = `${API_BASE_URL}/projects`;
+  const groupApiUrl = `${API_BASE_URL}/groups`;
+
 
   useEffect(() => {
     // projectId が存在しない (＝ location.state?.id が undefined) 場合はリダイレクト
@@ -37,7 +41,7 @@ const AdminGroupList = () => {
   //グループ一覧のフェッチ
   const fetchGroups = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/api/projects/${projectId}`,{
+      const res = await axios.get(`${projectApiUrl}/${projectId}`,{
         headers: headers
       })
       setGroup(res.data.groups);
@@ -54,7 +58,7 @@ const AdminGroupList = () => {
   // グループ削除
   const deleteGroup = async(id) =>{
     if(window.confirm("本当に削除しますか？")){
-      await axios.delete(`http://127.0.0.1:8000/api/groups/${id}`,{
+      await axios.delete(`${groupApiUrl}/${id}`,{
         headers:headers
       })
       fetchGroups();

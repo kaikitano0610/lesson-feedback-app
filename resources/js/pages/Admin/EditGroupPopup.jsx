@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { API_BASE_URL } from '../../config/api';
 
 const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,groupId}) => {
     //全てのユーザー
@@ -21,10 +22,9 @@ const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,group
         'Authorization':`Bearer ${token}`
     }
 
-    const editGroupApiUrl = `http://127.0.0.1:8000/api/groups/${groupId}`;
-    const getAllUserApiUrl = "http://127.0.0.1:8000/api/users";
-    const getUserGroupApiUrl = `http://127.0.0.1:8000/api/user-groups/${groupId}`;
-    const editUserGroupApiUrl = `http://127.0.0.1:8000/api/user-groups`;
+    const groupApiUrl = `${API_BASE_URL}/groups`;
+    const userApiUrl = `${API_BASE_URL}/users`;
+    const userGroupApiUrl = `${API_BASE_URL}/user-groups`;
 
     
     const handleChange = (e) => {
@@ -55,7 +55,7 @@ const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,group
             return
         }
         try{
-            const response = await axios.put(editGroupApiUrl,formDataGroup,{ headers });
+            const response = await axios.put(`${groupApiUrl}/${groupId}`,formDataGroup,{ headers });
             fetchGroups();
         }catch(error){
             console.error("グループ更新失敗：", error)
@@ -63,10 +63,10 @@ const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,group
         }
 
         added.forEach(id => {
-            axios.post(editUserGroupApiUrl, { group_id: groupId, user_id: id },{ headers });
+            axios.post(userGroupApiUrl, { group_id: groupId, user_id: id },{ headers });
         });
         removed.forEach(id => {
-            axios.post(editUserGroupApiUrl, { group_id: groupId, user_id: id },{ headers });
+            axios.post(userGroupApiUrl, { group_id: groupId, user_id: id },{ headers });
         });
 
         setIsOpenEdit(false);
@@ -82,14 +82,14 @@ const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,group
     useEffect(()=>{
         //全ユーザーの取得
         const allUserData = async() => {
-            const res = await axios.get(getAllUserApiUrl,{
+            const res = await axios.get(userApiUrl,{
                 headers:headers
             })
             setAllUser(res.data);
         };
         //選択されたグループのユーザーの取得
         const groupUserData = async() => {
-            const res = await axios.get(getUserGroupApiUrl,{
+            const res = await axios.get(`${userGroupApiUrl}/${groupId}`,{
                 headers:headers
             })
             const userIds = res.data.users?.map(user => user.id) || [];
