@@ -19,7 +19,7 @@ const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,group
     const groupApiUrl = `${API_BASE_URL}/groups`;
     const userApiUrl = `${API_BASE_URL}/users`;
     const userGroupApiUrl = `${API_BASE_URL}/user-groups`;
-
+    const userGroupDeleteApiUrl = `${API_BASE_URL}/user-groups/delete`;
     
     const handleChange = (e) => {
         setFormDataGroup({...formDataGroup,group_name: e.target.value})
@@ -42,7 +42,7 @@ const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,group
         // 追加されるuserIdを絞り込む
         const added = newGroupUserId.filter(id => !groupUserId.includes(id));
         //　削除されるuserIdを絞り込む
-        const removed = newGroupUserId.filter(id => !newGroupUserId.includes(id));
+        const removed = groupUserId.filter(id => !newGroupUserId.includes(id));
     
         if(!formDataGroup.group_name){
             alert("グループ名を入力してください。")
@@ -60,7 +60,7 @@ const EditGroupPopup = ({setIsOpenEdit, groupName ,projectId, fetchGroups ,group
             axios.post(userGroupApiUrl, { group_id: groupId, user_id: id },{ headers:getAuthHeaders() });
         });
         removed.forEach(id => {
-            axios.post(userGroupApiUrl, { group_id: groupId, user_id: id },{ headers:getAuthHeaders() });
+            axios.post(userGroupDeleteApiUrl, { group_id: groupId, user_id: id },{ headers:getAuthHeaders() });
         });
 
         setIsOpenEdit(false);
