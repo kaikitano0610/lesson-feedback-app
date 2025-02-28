@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import "../../../css/pages/AdminHome.css"
 import AddGroupPopup from './AddGroupPopup';
 import EditGroupPopup from './EditGroupPopup';
-import { API_BASE_URL } from '../../config/api';
+import { API_BASE_URL, getAuthHeaders } from '../../config/api';
 
 const AdminGroupList = () => {
 
@@ -14,7 +14,6 @@ const AdminGroupList = () => {
   const [isOpenEdit , setIsOpenEdit] = useState(false);
   const [groupName , setGroupName] = useState(null)
   const [selectedGroupId , setSelectedGroupId] = useState(null);
-  const token = localStorage.getItem('token');
   const location = useLocation();
   const projectId = location.state?.id;
   const projectApiUrl = `${API_BASE_URL}/projects`;
@@ -28,10 +27,6 @@ const AdminGroupList = () => {
     }
   }, [projectId, navigate]);
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization':`Bearer ${token}`
-  }
 
   //グループを作成するポップアップを開く
   const handleAddGroup = () => {
@@ -42,7 +37,7 @@ const AdminGroupList = () => {
   const fetchGroups = async () => {
     try {
       const res = await axios.get(`${projectApiUrl}/${projectId}`,{
-        headers: headers
+        headers: getAuthHeaders()
       })
       setGroup(res.data.groups);
     }catch(e) {
@@ -52,14 +47,16 @@ const AdminGroupList = () => {
 
   //更新時
   useEffect(() => {
-    fetchGroups();
-  },[])
+    if(projectId){
+      fetchGroups();
+    }
+  },[projectId])
 
   // グループ削除
   const deleteGroup = async(id) =>{
     if(window.confirm("本当に削除しますか？")){
       await axios.delete(`${groupApiUrl}/${id}`,{
-        headers:headers
+        headers:getAuthHeaders()
       })
       fetchGroups();
     }

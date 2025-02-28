@@ -1,19 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import { API_BASE_URL } from '../../config/api';
+import { API_BASE_URL, getAuthHeaders } from '../../config/api';
 
 const EditProjectPopup = ({setIsOpenEdit,fetchProjects,projectId,project_name}) => {
 
     const [formData,setFormData] = useState({
         project_name:project_name,
     });
-
-    const token = localStorage.getItem('token');
-
-    const headers = {
-        'Content-Type': 'application/json',
-        'Authorization':`Bearer ${token}`
-    }
 
     const projectApiUrl = `${API_BASE_URL}/projects`;
 
@@ -29,7 +22,7 @@ const EditProjectPopup = ({setIsOpenEdit,fetchProjects,projectId,project_name}) 
         }
         try{
             const response = await axios.put(`${projectApiUrl}/${projectId}`,formData, {
-                headers:headers
+                headers:getAuthHeaders()
             });
             console.log("更新したプロジェクト名：", response.data);
             setIsOpenEdit(false);

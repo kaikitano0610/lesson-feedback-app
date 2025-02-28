@@ -4,7 +4,7 @@ import '../../../css/pages/AdminHome.css'
 import { useNavigate } from 'react-router-dom';
 import AddProjectPopup from './AddProjectPopup';
 import EditProjectPopup from './EditProjectPopup';
-import { API_BASE_URL } from '../../config/api';
+import { API_BASE_URL, getAuthHeaders } from '../../config/api';
 
 
 const AdminHome = () => {
@@ -13,12 +13,7 @@ const AdminHome = () => {
   const [isOpenEdit , setIsOpenEdit] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
   const [projectName , setProjectName] = useState();
-  const token = localStorage.getItem('token');
 
-  const headers = {
-    'Content-Type': 'application/json',
-    'Authorization':`Bearer ${token}`
-  }
 
   const navigate = useNavigate();
 
@@ -44,7 +39,7 @@ const AdminHome = () => {
   const fetchProjects = async () => {
     try {
       const res = await axios.get( projectApiUrl,{
-        headers: headers
+        headers: getAuthHeaders()
       })
       setProject(res.data);
     }catch (e) {
@@ -62,7 +57,7 @@ const AdminHome = () => {
   const deletProject = async(id) => {
     if(window.confirm("本当に削除しますか？")){
       await axios.delete(`${projectApiUrl}/${id}`,{
-        headers: headers
+        headers: getAuthHeaders()
       })
       fetchProjects();
     }
