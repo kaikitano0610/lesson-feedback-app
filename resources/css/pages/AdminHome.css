@@ -2,6 +2,18 @@
 .project_page {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+    
+.paginationBtn {
+    margin: 5px;
+    padding: 5px 8px;
+    background-color: white;
+    border: none;
+    font-size: 15px;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
 .project_container {
@@ -23,7 +35,7 @@
     transition: all 0.3s;
     cursor: pointer;
     display: flex;
-        justify-content: space-between;
+    justify-content: space-between;
 }
 
 .project:hover {
@@ -233,3 +245,4 @@
     padding: 10px;
     border-radius: 10px;
 }
+

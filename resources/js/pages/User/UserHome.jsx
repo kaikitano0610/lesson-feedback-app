@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import '../../../css/pages/AdminHome.css'
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL, getAuthHeaders } from '../../config/api';
@@ -7,6 +7,10 @@ import { API_BASE_URL, getAuthHeaders } from '../../config/api';
 
 const UserHome = () => {
   const [project,setProject] = useState([]);
+  const [error,setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const navigate = useNavigate();
 
@@ -18,42 +22,91 @@ const UserHome = () => {
 
 
   //プロジェクト一覧のフェッチ
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback( async () => {
+    setLoading("読み込み中...")
     try {
-      const res = await axios.get( projectApiUrl,{
+      const res = await axios.get( `${projectApiUrl}?page=${currentPage}`,{
         headers: getAuthHeaders()
       })
-      setProject(res.data);
+      console.log(res.data);
+      
+      setLastPage(res.data.last_page);
+      setProject(res.data.data);
     }catch (e) {
         console.error("プロジェクト取得に失敗しました。")
+        setError("プロジェクトの取得に失敗しました。")
     }
-  }
+    setLoading(false)
+  },[currentPage])
 
   // 更新時
   useEffect(() => {
       fetchProjects();
-    },[]
+    },[fetchProjects]
   )
+
+  //ローディング中
+  if(loading){
+    return(
+      <div>
+        <p>{loading}</p>
+      </div>
+    )
+  }
+  
+  //取得失敗
+  if(error){
+    return(
+      <div>
+        <p>{error}</p>
+      </div>
+    )
+  }
+
+  //ページネーションについて
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  }
+
+  const pagination = () => {
+    const pageNumbers = [];
+    for (let i = 1 ; i <= lastPage; i++){
+      pageNumbers.push(
+        <button className='paginationBtn' key={i} onClick={()=> handlePageChange(i)}disabled={currentPage === i}>
+          {i}
+        </button>
+      )
+    }
+    return <div>{pageNumbers}</div>;
+  }
 
 
   return (
     <>
-      <div className='home'>ホーム</div>
-      <div className='project_page'>
-        <div className='project_container'>
-          {project.map((project) => (
-            <div className='project' key={project.id} onClick={() => toGroups(project.id)}>
-              <div>
-                <h1> {project.project_name} </h1>
-                <p className='created_date'>{new Date(project.created_at).toLocaleDateString()}</p>
-                <p>8つのグループ</p>
+    {project && project.length > 0 ? (
+      <>
+        <div className='home'>ホーム</div>
+        <div className='project_page'>
+          <div className='project_container'>
+            {project.map((project) => (
+              <div className='project' key={project.id} onClick={() => toGroups(project.id)}>
+                <div>
+                  <h1> {project.project_name} </h1>
+                  <p className='created_date'>{new Date(project.created_at).toLocaleDateString()}</p>
+                  <p>8つのグループ</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {pagination()}
         </div>
+      </>
+    ) : (
+      <div>
+        <p>表示できるプロジェクトがありません。</p>
       </div>
+    )}
     </>
-
   )
 }
 

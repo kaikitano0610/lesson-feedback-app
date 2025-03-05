@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import "../../../css/pages/AdminHome.css";
 import { API_BASE_URL, getAuthHeaders } from '../../config/api';
@@ -10,22 +10,18 @@ const UserGroupList = () => {
 
   const navigate = useNavigate();
   const [group,setGroup] = useState([]);
+  const [error,setError] = useState(null);
+  const [loading,setLoading] = useState(true);
   const location = useLocation();
   const projectId = location.state?.id;
 
   const projectApiUrl = `${API_BASE_URL}/projects`;
 
 
-  useEffect(() => {
-    // projectId が存在しない時はリダイレクト
-    if (!projectId) {
-      navigate('/user/home');
-    }
-  }, [projectId, navigate]);
-
-
+  
   //グループ一覧のフェッチ
-  const fetchGroups = async () => {
+  const fetchGroups = useCallback( async () => {
+    setLoading("読み込み中...")
     try {
       const res = await axios.get(`${projectApiUrl}/${projectId}`,{
         headers: getAuthHeaders()
@@ -33,15 +29,38 @@ const UserGroupList = () => {
       setGroup(res.data.groups);
     }catch(e) {
       console.log("グループの取得に失敗しました。")
+      setError("読み込みエラーです");
     }
-  }
-
-  //更新時
+    setLoading(false);
+  },[projectId])
+  
   useEffect(() => {
-    if(projectId){
+    // projectId が存在しない時はリダイレクト
+    if (!projectId) {
+      navigate('/user/home');
+    } else{
       fetchGroups();
     }
-  },[projectId])
+
+  }, [projectId, navigate, fetchGroups]);
+
+  //取得失敗したときの表示
+  if (error) {
+    return (
+      <div>
+        <p>{error}</p>
+      </div>
+    )
+  }
+
+  //読み込み中の表示
+  if (loading){
+    return (
+      <div>
+        <p>{loading}</p>
+      </div>
+    )
+  }
 
   return (
     <>
