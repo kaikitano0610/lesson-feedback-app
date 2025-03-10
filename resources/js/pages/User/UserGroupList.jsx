@@ -12,6 +12,7 @@ const UserGroupList = () => {
   const [group,setGroup] = useState([]);
   const [error,setError] = useState(null);
   const [loading,setLoading] = useState(true);
+  const [loadingMessage,setLoadingMessage] = useState();
   const location = useLocation();
   const projectId = location.state?.id;
 
@@ -21,7 +22,8 @@ const UserGroupList = () => {
   
   //グループ一覧のフェッチ
   const fetchGroups = useCallback( async () => {
-    setLoading("読み込み中...")
+    setLoadingMessage("読み込み中...")
+    setLoading(true)
     try {
       const res = await axios.get(`${projectApiUrl}/${projectId}`,{
         headers: getAuthHeaders()
@@ -57,7 +59,7 @@ const UserGroupList = () => {
   if (loading){
     return (
       <div>
-        <p>{loading}</p>
+        <p>{loadingMessage}</p>
       </div>
     )
   }

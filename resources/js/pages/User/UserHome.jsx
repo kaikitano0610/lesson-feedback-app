@@ -9,6 +9,7 @@ const UserHome = () => {
   const [project,setProject] = useState([]);
   const [error,setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
@@ -23,13 +24,12 @@ const UserHome = () => {
 
   //プロジェクト一覧のフェッチ
   const fetchProjects = useCallback( async () => {
-    setLoading("読み込み中...")
+    setLoadingMessage("読み込み中...");
+    setLoading(true);
     try {
       const res = await axios.get( `${projectApiUrl}?page=${currentPage}`,{
         headers: getAuthHeaders()
       })
-      console.log(res.data);
-      
       setLastPage(res.data.last_page);
       setProject(res.data.data);
     }catch (e) {
@@ -49,7 +49,7 @@ const UserHome = () => {
   if(loading){
     return(
       <div>
-        <p>{loading}</p>
+        <p>{loadingMessage}</p>
       </div>
     )
   }
@@ -72,7 +72,7 @@ const UserHome = () => {
     const pageNumbers = [];
     for (let i = 1 ; i <= lastPage; i++){
       pageNumbers.push(
-        <button className='paginationBtn' key={i} onClick={()=> handlePageChange(i)}disabled={currentPage === i}>
+        <button className='paginationBtn' key={i} onClick={()=> handlePageChange(i)} disabled={currentPage === i}>
           {i}
         </button>
       )
