@@ -7,6 +7,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserProjectController;
 
 Route::post('login', [LoginController::class, 'login']);
 
@@ -19,6 +20,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user-groups/{group_id}', [UserGroupController::class, 'show']);
     Route::post('user-groups', [UserGroupController::class, 'store']);
     Route::post('user-groups/delete', [UserGroupController::class, 'destroy']);
+    Route::get('user-projects', [UserProjectController::class, 'index']);
+    // Route::post('logout', [LoginController::class, 'logout']);
 });
 
 
