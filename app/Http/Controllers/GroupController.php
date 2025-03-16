@@ -36,7 +36,7 @@ class GroupController extends Controller
      */
     public function show(int $id)
     {
-        $group = Group::with(['users:id,name,email', 'project:id,project_name'])->findOrFail($id);
+        $group = Group::with(['users:id,name,email', 'project:id,project_name', 'videos'])->findOrFail($id);
         return response()->json($group);
     }
 

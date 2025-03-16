@@ -12,9 +12,10 @@ class VideoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexByGroup(int $group_id)
     {
-        return response()->json(Video::all());
+        $videos = Video::where('group_id',$group_id)->get();
+        return response()->json($videos);
     }
 
     /**

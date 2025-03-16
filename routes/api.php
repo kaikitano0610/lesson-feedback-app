@@ -14,6 +14,7 @@ Route::post('login', [LoginController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('videos', VideoController::class);
+    Route::get('/groups/{group_id}/videos', [VideoController::class, 'indexByGroup']);
     Route::apiResource('comments', CommentController::class);
     Route::apiResource('groups', GroupController::class);
     Route::apiResource('projects', ProjectController::class);
