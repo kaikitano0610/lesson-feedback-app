@@ -24,7 +24,7 @@ class CommentsTableSeeder extends Seeder
             ],
             [
                 'video_id' => 2,
-                'user_id' => 2, 
+                'user_id' => 2,
                 'time' => 90,
                 'evaluation' => 'improvement',
                 'feedback_category' => 'activity/development',
@@ -33,7 +33,7 @@ class CommentsTableSeeder extends Seeder
                 'y_coordinate' => 250,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
     }
 }

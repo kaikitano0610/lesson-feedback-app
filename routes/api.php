@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\VideoController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GroupController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\UserProjectController;
+use App\Http\Controllers\VideoController;
 
 Route::post('login', [LoginController::class, 'login']);
 
@@ -24,6 +24,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user-projects', [UserProjectController::class, 'index']);
     // Route::post('logout', [LoginController::class, 'logout']);
 });
-
-
-

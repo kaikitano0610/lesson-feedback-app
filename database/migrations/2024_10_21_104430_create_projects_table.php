@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::dropIfExists('projects');
         Schema::create('projects', function (Blueprint $table) {
-                $table->id();
-                $table->string('project_name');
-                $table->timestamps(); // created_at と updated_at
+            $table->id();
+            $table->string('project_name');
+            $table->timestamps(); // created_at と updated_at
         });
     }
 

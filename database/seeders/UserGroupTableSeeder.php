@@ -21,7 +21,7 @@ class UserGroupTableSeeder extends Seeder
                 'group_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
     }
 }

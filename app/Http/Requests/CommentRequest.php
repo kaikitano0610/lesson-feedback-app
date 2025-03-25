@@ -32,6 +32,7 @@ class CommentRequest extends FormRequest
         if ($this->isMethod('post')) { // store メソッド用
             $rules['video_id'] = 'required|exists:videos,id';
         }
+
         return $rules;
     }
 

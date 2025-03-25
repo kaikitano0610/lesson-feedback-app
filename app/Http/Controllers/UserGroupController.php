@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserGroupRequest;
-use Illuminate\Http\Request;
-use App\Models\UserGroup;
 use App\Models\Group;
-
+use App\Models\UserGroup;
 
 class UserGroupController extends Controller
 {
@@ -16,9 +14,9 @@ class UserGroupController extends Controller
     public function show(int $groupId)
     {
         $group = Group::with('users')->find($groupId);
+
         return response()->json($group);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -29,12 +27,11 @@ class UserGroupController extends Controller
 
         $user_group = UserGroup::create([
             'user_id' => $validatedData['user_id'],
-            'group_id' => $validatedData['group_id']
+            'group_id' => $validatedData['group_id'],
         ]);
 
-        return response()->json($user_group,201);
+        return response()->json($user_group, 201);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -49,7 +46,7 @@ class UserGroupController extends Controller
         // Groupモデルからリレーションを使用してデータを削除
         $group = Group::find($groupId);
 
-        if (!$group) {
+        if (! $group) {
             return response()->json(['message' => 'Group not found'], 404);
         }
 
@@ -62,5 +59,4 @@ class UserGroupController extends Controller
             return response()->json(['message' => 'Relation not found or already removed'], 404);
         }
     }
-
 }

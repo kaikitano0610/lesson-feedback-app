@@ -22,7 +22,7 @@ class ProjectsTableSeeder extends Seeder
                 'project_name' => 'Test Project 2',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
     }
 }

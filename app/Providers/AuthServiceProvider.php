@@ -15,7 +15,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         //
     }
-    
+
     protected $policies = [
         Comment::class => CommentPolicy::class,
     ];

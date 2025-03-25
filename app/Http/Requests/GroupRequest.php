@@ -26,6 +26,7 @@ class GroupRequest extends FormRequest
             'project_id' => 'required|integer|exists:projects,id',
         ];
     }
+
     public function messages(): array
     {
         return [

@@ -27,7 +27,7 @@ class VideoRequest extends FormRequest
             'subject' => 'required|string|max:255',
             'school_type' => 'required|string|max:255',
             'grade' => 'required|string|max:255',
-            'pdf_path' => 'required|string|max:255'
+            'pdf_path' => 'required|string|max:255',
         ];
     }
 }

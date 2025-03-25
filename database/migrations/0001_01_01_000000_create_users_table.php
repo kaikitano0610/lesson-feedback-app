@@ -52,11 +52,10 @@ return new class extends Migration
         });
         Schema::dropIfExists('user_group');
         Schema::dropIfExists('groups');
-        
+
         // `users` テーブルを最後に削除
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
-    
 };

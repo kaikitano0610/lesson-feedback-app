@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
 use App\Http\Requests\GroupRequest;
-use Illuminate\Http\Request;
+use App\Models\Group;
 
 class GroupController extends Controller
 {
@@ -19,16 +18,14 @@ class GroupController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-
-
     public function store(GroupRequest $request)
     {
         $group = Group::create([
             'group_name' => $request->input('group_name'),
-            'project_id' => $request->input('project_id')
+            'project_id' => $request->input('project_id'),
         ]);
 
-        return response()->json($group->load('project'),201);
+        return response()->json($group->load('project'), 201);
     }
 
     /**
@@ -37,6 +34,7 @@ class GroupController extends Controller
     public function show(int $id)
     {
         $group = Group::with(['users:id,name,email', 'project:id,project_name', 'videos'])->findOrFail($id);
+
         return response()->json($group);
     }
 
@@ -49,8 +47,9 @@ class GroupController extends Controller
 
         $group->update([
             'group_name' => $request->input('group_name'),
-            'project_id' => $request->input('project_id')
+            'project_id' => $request->input('project_id'),
         ]);
+
         return response()->json($group);
     }
 
@@ -61,6 +60,7 @@ class GroupController extends Controller
     {
         $group = Group::findOrFail($id);
         $group->delete();
-        return response()->json('Group deleted successfully!',200);
+
+        return response()->json('Group deleted successfully!', 200);
     }
 }
