@@ -1,0 +1,42 @@
+name: Pint
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリをチェックアウト
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # GitHub上でPATを生成して環境変数を設定してください
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 現在動いているワークフローをキャンセル
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+
+      # PHPのインストール
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: intl, zip, pcntl, bcmath, gd, pdo_mysql, exif, redis, imagick, soap, xsl, gmp, opcache, sockets, memcached, apcu, mongodb, swoole, xdebug
+          coverage: pcov
+
+      # Composer インストール
+      - name: Create laravel directory
+        run: mkdir -p laravel
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --ansi
+
+      # Pintを実行
+      - name: Run pint for Changed Files
+        run: vendor/bin/pint --test
