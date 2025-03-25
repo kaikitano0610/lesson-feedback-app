@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Video;
-use Illuminate\Http\Request;
 use App\Http\Requests\VideoRequest;
+use App\Models\Video;
 
 class VideoController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexByGroup(int $group_id)
     {
-        return response()->json(Video::all());
+        $videos = Video::where('group_id', $group_id)->get();
+
+        return response()->json($videos);
     }
 
     /**
@@ -23,11 +23,12 @@ class VideoController extends Controller
     public function store(VideoRequest $request)
     {
         $validatedData = $request->validated();
-        $validatedData["user_id"] = auth()->id();
-        $validatedData["posted_date"] = now();
+        $validatedData['user_id'] = auth()->id();
+        $validatedData['posted_date'] = now();
 
         $video = Video::create($validatedData);
-        return response()->json($video,201);
+
+        return response()->json($video, 201);
     }
 
     /**
@@ -36,6 +37,7 @@ class VideoController extends Controller
     public function show(string $id)
     {
         $video = Video::findOrFail($id);
+
         return response()->json($video);
     }
 
@@ -48,6 +50,7 @@ class VideoController extends Controller
         $validatedData = $request->validated();
 
         $video->update($validatedData);
+
         return response()->json($video);
     }
 
@@ -58,6 +61,7 @@ class VideoController extends Controller
     {
         $video = Video::findOrFail($id);
         $video->delete();
-        return response()->json('Video deleted successfully!',200);
+
+        return response()->json('Video deleted successfully!', 200);
     }
 }

@@ -46,6 +46,11 @@ const UserGroupList = () => {
 
   }, [projectId, navigate, fetchGroups]);
 
+    //videosへ遷移
+    const toVideos = (groupId) => {
+      navigate(`/groups/${groupId}/videos`)
+    }
+
   //取得失敗したときの表示
   if (error) {
     return (
@@ -72,7 +77,7 @@ const UserGroupList = () => {
         <div className='group_page'>
           <div className='group_container'>
             {group.map((group) => (
-              <div className='group' key={group.id}>
+              <div className='group' key={group.id} onClick={()=>toVideos(group.id)}>
                 <div>
                   <h1> {group.group_name} </h1>
                   <p>○人のメンバー</p>

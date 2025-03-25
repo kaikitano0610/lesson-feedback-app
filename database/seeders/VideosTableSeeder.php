@@ -21,6 +21,7 @@ class VideosTableSeeder extends Seeder
                 'pdf_path' => 'path/to/pdf1.pdf',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'group_id' => 1
             ],
             [
                 'title' => 'Sample Video 2',
@@ -33,6 +34,7 @@ class VideosTableSeeder extends Seeder
                 'pdf_path' => 'path/to/pdf2.pdf',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'group_id' => 1
             ]
         ]);
     }

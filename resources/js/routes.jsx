@@ -2,8 +2,8 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AdminHome from './pages/Admin/AdminHome';
 import AdminGroupList from './pages/Admin/AdminGroupList.jsx';
-import VideoList from './pages/Admin/VideoList';
-import VideoDetail from './pages/Admin/VideoDetail';
+import VideoList from './pages/VideoList';
+import VideoDetail from './pages/VideoDetail';
 import UserHome from './pages/User/UserHome';
 import UserGroupList from './pages/User/UserGroupList';
 import Login from './pages/Login.jsx'
@@ -24,13 +24,14 @@ const AppRoutes = () => {
                 {/* 管理者ルート */}
                 <Route path="/admin/home" element={<AdminHome />} />
                 <Route path="/admin/groups" element={<AdminGroupList />} />
-                <Route path="/admin/videos" element={<VideoList />} />
-                <Route path="/admin/videos/:id" element={<VideoDetail />} />
 
                 {/* ユーザールート */}
                 <Route path="/user/home" element={<UserHome />} />
                 <Route path="/user/groups" element={<UserGroupList />} />
-                <Route path="/user/videos/:id" element={<VideoDetail />} />
+
+                {/* 共通のルート */}
+                <Route path="/groups/:groupId/videos" element={<VideoList />} />
+                <Route path="/videos/:id" element={<VideoDetail />} />
 
                 {/* ログイン */}
                 <Route path="/login" element={<Login />} />

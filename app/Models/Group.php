@@ -21,4 +21,9 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class, 'user_group');
     }
+
+    public function videos() :HasMany
+    {
+        return $this->hasMany(Video::class, 'group_id');
+    }
 }
