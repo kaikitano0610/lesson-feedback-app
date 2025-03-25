@@ -27,7 +27,7 @@ return new class extends Migration
             $table->dropForeign(['user_id']);
             $table->dropForeign(['group_id']);
         });
-    
+
         Schema::dropIfExists('user_group');
     }
 };

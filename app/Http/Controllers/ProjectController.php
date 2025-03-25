@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Project;
-use Illuminate\Http\Request;
+
 use App\Http\Requests\ProjectRequest;
-
-
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
@@ -17,17 +15,17 @@ class ProjectController extends Controller
         return response()->json(Project::all());
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(ProjectRequest $request)
     {
-        $validatedData = $request->validated(); 
+        $validatedData = $request->validated();
         $project = Project::create([
             'project_name' => $validatedData['project_name'],
         ]);
-        return response()->json($project,201);
+
+        return response()->json($project, 201);
     }
 
     /**
@@ -36,6 +34,7 @@ class ProjectController extends Controller
     public function show(int $id)
     {
         $project = Project::with('groups')->findOrFail($id);
+
         return response()->json($project);
     }
 
@@ -45,10 +44,11 @@ class ProjectController extends Controller
     public function update(ProjectRequest $request, int $id)
     {
         $project = Project::findOrFail($id);
-        
+
         $project->update([
-            'project_name' => $request->input('project_name')
+            'project_name' => $request->input('project_name'),
         ]);
+
         return response()->json($project);
 
     }
@@ -60,6 +60,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
         $project->delete();
-        return response()->json('Project deleted successfully!',200);
+
+        return response()->json('Project deleted successfully!', 200);
     }
 }

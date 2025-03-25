@@ -21,12 +21,13 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('user'); 
+        $id = $this->route('user');
+
         return [
             'name' => 'required|string|max:225',
-            'email' => 'required|email|unique:users,email' .($id ? ','.$id : '') ,
-            'password' => $id ? 'nullable|string|min:8' :'required|string|min:8',
-            'role' => 'required|string'
+            'email' => 'required|email|unique:users,email'.($id ? ','.$id : ''),
+            'password' => $id ? 'nullable|string|min:8' : 'required|string|min:8',
+            'role' => 'required|string',
         ];
     }
 

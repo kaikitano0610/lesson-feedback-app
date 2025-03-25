@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('pdf_path')->nullable();
             $table->timestamps();
         });
-        
+
     }
 
     /**

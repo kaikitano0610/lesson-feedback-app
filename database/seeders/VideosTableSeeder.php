@@ -12,7 +12,7 @@ class VideosTableSeeder extends Seeder
         DB::table('videos')->insert([
             [
                 'title' => 'Sample Video 1',
-                'user_id' => 2, 
+                'user_id' => 2,
                 'youtube_link' => 'https://youtube.com/sample-video-1',
                 'posted_date' => now(),
                 'subject' => 'Math',
@@ -21,11 +21,11 @@ class VideosTableSeeder extends Seeder
                 'pdf_path' => 'path/to/pdf1.pdf',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'group_id' => 1
+                'group_id' => 1,
             ],
             [
                 'title' => 'Sample Video 2',
-                'user_id' => 2, 
+                'user_id' => 2,
                 'youtube_link' => 'https://youtube.com/sample-video-2',
                 'posted_date' => now(),
                 'subject' => 'Science',
@@ -34,8 +34,8 @@ class VideosTableSeeder extends Seeder
                 'pdf_path' => 'path/to/pdf2.pdf',
                 'created_at' => now(),
                 'updated_at' => now(),
-                'group_id' => 1
-            ]
+                'group_id' => 1,
+            ],
         ]);
     }
 }

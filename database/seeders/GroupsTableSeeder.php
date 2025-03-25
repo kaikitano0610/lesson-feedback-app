@@ -21,7 +21,7 @@ class GroupsTableSeeder extends Seeder
                 'project_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
         ]);
     }
 }

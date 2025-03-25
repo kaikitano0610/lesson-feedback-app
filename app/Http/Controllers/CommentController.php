@@ -2,23 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\CommentRequest;
-use Illuminate\Http\Request;
 use App\Models\Comment;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
     use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         $videoId = $request->query('video_id');
-        $comments = Comment::where('video_id',$videoId)->get();
+        $comments = Comment::where('video_id', $videoId)->get();
+
         return response()->json($comments);
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -28,7 +31,8 @@ class CommentController extends Controller
         $validatedData['user_id'] = auth()->id();
 
         $comment = Comment::create($validatedData);
-        return response()->json($comment,201);
+
+        return response()->json($comment, 201);
     }
 
     /**
@@ -37,6 +41,7 @@ class CommentController extends Controller
     public function show(string $id)
     {
         $comment = Comment::findOrFail($id);
+
         return response()->json($comment);
     }
 
@@ -52,6 +57,7 @@ class CommentController extends Controller
         $validatedData = $request->validated();
 
         $comment->update($validatedData);
+
         return response()->json($comment);
     }
 
@@ -65,6 +71,7 @@ class CommentController extends Controller
         $this->authorize('delete', $comment);
 
         $comment->delete();
-        return response()->json('Comment deleted successfully!',200);
+
+        return response()->json('Comment deleted successfully!', 200);
     }
 }

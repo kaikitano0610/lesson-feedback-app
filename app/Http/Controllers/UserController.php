@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -16,7 +15,6 @@ class UserController extends Controller
         return response()->json(User::all());
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -25,7 +23,7 @@ class UserController extends Controller
         $validatedData = $request->validated();
         $user = User::create($validatedData);
 
-        return response()->json($user,201);
+        return response()->json($user, 201);
     }
 
     /**
@@ -34,9 +32,9 @@ class UserController extends Controller
     public function show(int $id)
     {
         $user = User::findOrFail($id);
+
         return response()->json($user);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -46,11 +44,12 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $validatedData = $request->validated();
 
-        if(filled($validatedData['password'])){
+        if (filled($validatedData['password'])) {
             $validatedData['password'] = bcrypt($validatedData['password']);
         }
 
         $user->update($validatedData);
+
         return response()->json($user);
     }
 
@@ -60,7 +59,8 @@ class UserController extends Controller
     public function destroy(int $id)
     {
         $user = User::findOrFail($id);
-        $user -> delete();
-        return response()->json('User deleted successfully!',200);
+        $user->delete();
+
+        return response()->json('User deleted successfully!', 200);
     }
 }
