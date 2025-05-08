@@ -16,7 +16,6 @@ const AddGroupPopup = ({setIsOpenAdd ,projectId, fetchGroups}) => {
 
     const handleSaveGroup = async(e) => {
         e.preventDefault();
-        console.log(formData)
 
         if(!formData.group_name){
             alert("グループ名を入力してください。")

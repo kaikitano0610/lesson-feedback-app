@@ -29,7 +29,7 @@ const AdminGroupList = () => {
 
   //videosへ遷移
   const toVideos = (groupId) => {
-    navigate(`/groups/${groupId}/videos`)
+    navigate(`/groups/${groupId}/videos`, {state:{ groupId }} )
   }
 
 
