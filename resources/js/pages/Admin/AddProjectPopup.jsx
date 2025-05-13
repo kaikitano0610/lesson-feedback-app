@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { API_BASE_URL, getAuthHeaders } from '../../config/api';
+import "../../../css/components/popup.css"
 
 const AddProjectPopup = ({setIsOpenAdd,fetchProjects}) => {
     const [formData, setFormData] = useState({
@@ -37,19 +38,25 @@ const AddProjectPopup = ({setIsOpenAdd,fetchProjects}) => {
     return (
         <>
             <div className='popup_container'>
-                <h2>新しいプロジェクトの作成</h2>
-                <form onSubmit={handleSaveProject}>
-                    <label htmlFor="project">追加するプロジェクトの名前を入力してください。</label>
-                    <input 
-                        type="text"
-                        id='project'
-                        name='project_name'
-                        value={formData.project_name}
-                        onChange={handleChange}
-                    />
-                    <button onClick={handleNotAddProject}>キャンセル</button>
-                    <button type='submit'>保存</button>
-                </form>
+                <div className='popup_content'>
+                    <h2>新しいプロジェクトの作成</h2>
+                    <form onSubmit={handleSaveProject}>
+                        <div className='form_group'>
+                            <label htmlFor="project">追加するプロジェクトの名前を入力してください。</label>
+                            <input 
+                                type="text"
+                                id='project'
+                                name='project_name'
+                                value={formData.project_name}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className='form_actions'>
+                            <button onClick={handleNotAddProject}>キャンセル</button>
+                            <button type='submit'>保存</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </>
     )

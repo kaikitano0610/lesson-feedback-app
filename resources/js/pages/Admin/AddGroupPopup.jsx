@@ -16,7 +16,6 @@ const AddGroupPopup = ({setIsOpenAdd ,projectId, fetchGroups}) => {
 
     const handleSaveGroup = async(e) => {
         e.preventDefault();
-        console.log(formData)
 
         if(!formData.group_name){
             alert("グループ名を入力してください。")
@@ -38,19 +37,25 @@ const AddGroupPopup = ({setIsOpenAdd ,projectId, fetchGroups}) => {
   return (
     <>
         <div className="popup_container">
-            <h2>新しいグループの作成</h2>
-            <form onSubmit={handleSaveGroup}>
-                <label htmlFor="group_name">グループ名</label>
-                <input 
-                    type="text"
-                    id='group_name'
-                    name='group_name'
-                    value={formData.group_name}
-                    onChange={handleChange}
-                />
-                <button onClick={handleNotAddGroup}>キャンセル</button>
-                <button type='submit'>保存</button>
-            </form>
+            <div className='popup_content'>
+                <h2>新しいグループの作成</h2>
+                <form onSubmit={handleSaveGroup}>
+                    <div className='form_group'>
+                        <label htmlFor="group_name">グループ名</label>
+                        <input 
+                            type="text"
+                            id='group_name'
+                            name='group_name'
+                            value={formData.group_name}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className='form_actions'>
+                        <button onClick={handleNotAddGroup}>キャンセル</button>
+                        <button type='submit'>保存</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </>
   )
