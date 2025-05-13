@@ -11,15 +11,8 @@ const AddVideoPopup = ({setIsOpenAdd,groupId}) => {
         school_type: "",
         grade: "",
         pdf_path: "",
-        group_id: null
+        group_id: groupId
     });
-
-    useEffect(()=> {
-        setFormData((prevData) => ({
-            ...prevData,
-            group_id: groupId
-        }));
-    },[groupId])
 
     const handleSaveVideo = async(e) => {
         e.preventDefault();
@@ -43,71 +36,33 @@ const AddVideoPopup = ({setIsOpenAdd,groupId}) => {
             [name]: value
         }));
     }
+
+    const formFields = [
+        { name: 'title', label: '動画名' },
+        { name: 'youtube_link', label: 'Youtubeリンク' },
+        { name: 'subject', label: '教科' },
+        { name: 'school_type', label: '校種' },
+        { name: 'grade', label: '学年' },
+        { name: 'pdf_path', label: 'PDF（仮）' }
+    ];
+    
     return (
         <div className="popup_container">
             <div className="popup_content">
                 <h2>新しい動画の作成</h2>
                 <form onSubmit={handleSaveVideo}>
-                    <div className="form_group">
-                        <label htmlFor="title">動画名</label>
-                        <input
-                            type="text"
-                            id='title'
-                            name='title'
-                            value={formData.title}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="form_group">
-                        <label htmlFor="youtube_link">Youtubeリンク</label>
-                        <input
-                            type="text"
-                            id='youtube_link'
-                            name='youtube_link'
-                            value={formData.youtube_link}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="form_group">
-                        <label htmlFor="subject">教科</label>
-                        <input
-                            type="text"
-                            id='subject'
-                            name='subject'
-                            value={formData.subject}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="form_group">
-                        <label htmlFor="school_type">校種</label>
-                        <input
-                            type="text"
-                            id='school_type'
-                            name='school_type'
-                            value={formData.school_type}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="form_group">
-                        <label htmlFor="grade">学年</label>
-                        <input
-                            type="text"
-                            id='grade'
-                            name='grade'
-                            value={formData.grade}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="form_group">
-                        <label htmlFor="pdf_path">PDF（仮）</label>
-                        <input
-                            type="text"
-                            id='pdf_path'
-                            name='pdf_path'
-                            value={formData.pdf_path}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    {formFields.map((field) => (
+                        <div className="form_group" key={field.name}>
+                            <label htmlFor={field.name}>{field.label}</label>
+                            <input
+                                type="text"
+                                id={field.name}
+                                name={field.name}
+                                value={formData[field.name]}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    ))}
                     <div className="form_actions">
                         <button onClick={() => setIsOpenAdd(false)}>キャンセル</button>
                         <button type='submit'>保存</button>
