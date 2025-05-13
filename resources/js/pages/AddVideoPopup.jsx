@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { API_BASE_URL, getAuthHeaders } from '../config/api'
 import axios from 'axios';
+import "../../css/components/popup.css"
 
 const AddVideoPopup = ({setIsOpenAdd,groupId}) => {
     const videoApiUrl = `${API_BASE_URL}/videos`;
@@ -11,7 +12,6 @@ const AddVideoPopup = ({setIsOpenAdd,groupId}) => {
         school_type: "",
         grade: "",
         pdf_path: "",
-        group_id: groupId
     });
 
     const handleSaveVideo = async(e) => {
@@ -21,7 +21,7 @@ const AddVideoPopup = ({setIsOpenAdd,groupId}) => {
             return
         }
         try{
-            await axios.post(videoApiUrl, formData, {headers: getAuthHeaders()});
+            await axios.post(videoApiUrl, {...formData, group_id:groupId }, {headers: getAuthHeaders()});
             setIsOpenAdd(false);
         }catch(e){
             console.log("動画の保存に失敗しました。")

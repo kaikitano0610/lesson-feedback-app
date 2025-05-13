@@ -100,7 +100,10 @@ const VideoList = () => {
       <>
         <div className='title'>○班の授業一覧</div>
         <p>授業動画の投稿がまだありません</p>
-      </>
+        <div className='add_video'>
+            <p onClick={handleAddVideo}>追加</p>
+        </div>
+      </>  
     )}
     {/* 追加ボタンが押されたら表示 */}
     {isOpenAdd && (
